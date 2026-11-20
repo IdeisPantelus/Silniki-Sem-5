@@ -6,20 +6,21 @@ public class player_health : MonoBehaviour
     public int MaxHealth = 10;
     private int health;
     public event Action Death;
-    void Start()
+    public event Action<int> OnAddHealth;
+    public event Action<int> OnHealthInnit;
+   
+    
+    void Start()    // stabilizing starting Health 
     {
         health = MaxHealth;
+        OnHealthInnit?.Invoke(health);  //sending it into game
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void AddHealth(int healthToAdd)
     {
         health += healthToAdd;
+        OnAddHealth?.Invoke(health);
         if (health > MaxHealth)
         {
             health = MaxHealth;
@@ -36,6 +37,7 @@ public class player_health : MonoBehaviour
     {
         health = MaxHealth;
         Death?.Invoke();
+       
     }
 
 }
